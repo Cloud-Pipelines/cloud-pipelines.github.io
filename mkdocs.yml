@@ -1,0 +1,4 @@
+site_name: Cloud Pipelines
+site_url: https://cloud-pipelines.net/
+markdown_extensions:
+  - mdx_truly_sane_lists
