@@ -2,3 +2,8 @@ site_name: Cloud Pipelines
 site_url: https://cloud-pipelines.net/
 markdown_extensions:
   - mdx_truly_sane_lists
+nav:
+  - index.md
+  - Components:
+      - components/create_component_from_python_function.md
+  - privacy_policy.md
