@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://cloud-pipelines.net/</loc>
-         <lastmod>2022-07-25</lastmod>
+         <lastmod>2022-07-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://cloud-pipelines.net/privacy_policy/</loc>
-         <lastmod>2022-07-25</lastmod>
+         <lastmod>2022-07-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://cloud-pipelines.net/components/create_component_from_python_function/</loc>
-         <lastmod>2022-07-25</lastmod>
+         <lastmod>2022-07-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
