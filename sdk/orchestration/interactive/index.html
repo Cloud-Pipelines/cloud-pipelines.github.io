@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://cloud-pipelines.net/sdk/orchestration/interactive/">
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Interactive pipelines - Cloud Pipelines</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Cloud Pipelines</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../../.." class="nav-link">Pipeline Editor</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Components <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../components/create_component_from_python_function/" class="dropdown-item">Create a component from a Python function</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">SDK <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Interactive pipelines</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../../privacy_policy/" class="nav-link">Privacy policy</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../../components/create_component_from_python_function/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../../privacy_policy/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#interactive-pipelines" class="nav-link">Interactive pipelines</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#prerequisites" class="nav-link">Prerequisites</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#activating-the-interactive-mode" class="nav-link">Activating the interactive mode</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#using-interactive-mode" class="nav-link">Using interactive mode</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#orchestration" class="nav-link">Orchestration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#running-locally-and-in-cloud" class="nav-link">Running locally and in cloud</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#examples" class="nav-link">Examples</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="interactive-pipelines">Interactive pipelines</h1>
+<p>Cloud Pipelines SDK has an interactive mode feature that allows the users to run components one by one and build pipelines interactively, step by step.</p>
+<p>Usually, pipelines are built statically, then compiled and sent for execution.
+However, for experimentation and pipeline or component development, running components interactively provides better experience.</p>
+<p>Interactive mode changes the behavior of the component functions. Normally, when you call a component function, it simply returns a <code>Task</code> object which is used to build pipelines statically. However, in interactive mode, when you call a component function, the component starts executing immediately and the function returns an <code>Execution</code> object instead of a <code>Task</code> object.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Install the <a href="https://pypi.org/project/cloud-pipelines/">Cloud Pipelines SDK</a>: <code>pip install cloud-pipelines</code>.</p>
+<p>The default task launcher uses the local Docker installation to execute component tasks.
+Make sure that Docker is installed and working. See <a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a></p>
+<h2 id="activating-the-interactive-mode">Activating the interactive mode</h2>
+<p>To activate the interactive execution mode, call <code>cloud_pipelines.activate_interactive_mode()</code>:</p>
+<pre><code class="language-python">import cloud_pipelines
+
+cloud_pipelines.activate_interactive_mode()
+</code></pre>
+<p>That's it.
+Now you can start executing components. You can pass the component execution outputs to other components, thus creating pipelines interactively.</p>
+<p>Note: To deactivate interactive mode, call <code>cloud_pipelines.deactivate_interactive_mode()</code>.
+Note: You can use interactive mode as Python context: <code>cloud_pipelines.orchestration.runners.InteractiveMode()</code>.</p>
+<h2 id="using-interactive-mode">Using interactive mode</h2>
+<h3 id="creating-or-loading-a-component">Creating or loading a component</h3>
+<p>Components are usually loaded from remote or local <code>component.yaml</code> files.</p>
+<p>Methods to load or create components can be found in the <code>cloud_pipelines.components</code> module:</p>
+<ul>
+<li><code>load_component_from_url</code></li>
+<li><code>load_component_from_file</code></li>
+<li><code>load_component_from_text</code></li>
+<li><code>create_component_from_func</code></li>
+</ul>
+<p>Each of these functions return a Python function with signature that corresponds to the component inputs.</p>
+<p>Here we will just create a new component from a small Python function.</p>
+<pre><code class="language-python">def add_exclamation(message: str = &quot;Hello, world&quot;) -&gt; str:
+    result = message + &quot;!&quot;
+    print(result)
+    return result
+
+from cloud_pipelines import components
+
+add_exclamation_op = components.create_component_from_func(add_exclamation)
+</code></pre>
+<p>The resulting <code>add_exclamation_op</code> is a Python callable/function.</p>
+<p>Learn more about <a href="https://cloud-pipelines.net/components/create_component_from_python_function/">creating a component from a Python function</a>.</p>
+<h3 id="running-the-component-interactively">Running the component interactively</h3>
+<p>Usually the component function just returns a <code>Task</code> object that is used for building pipelines statically. However in interactive mode, the component starts running right away and the function returns an <code>Execution</code> object.</p>
+<pre><code class="language-python">execution = add_exclamation_op(message=&quot;Hi&quot;)
+</code></pre>
+<p>You should see the following log:</p>
+<pre><code class="language-text">2023-02-06 07:18:37.984659: [Add exclamation] Starting container task.
+2023-02-06 07:18:40.474181: [Add exclamation] Hi!
+2023-02-06 07:18:40.998756: [Add exclamation] Container task completed with status: Succeeded
+</code></pre>
+<p>Check the component execution outputs (<code>Artifact</code> objects):</p>
+<pre><code class="language-python">output1 = execution.outputs[&quot;Output&quot;]
+print(output1.materialize())
+</code></pre>
+<p>You should see the following log:</p>
+<pre><code class="language-text">Hi!
+</code></pre>
+<h2 id="orchestration">Orchestration</h2>
+<h3 id="executions">Executions</h3>
+<p>When you run component task, the <code>Runner</code> immediately creates and returns an <code>Execution</code> object while the execution runs in the background.
+<code>Execution</code> object has <code>.outputs</code> attribute that holds the dictionary of the component execution's output artifacts. The output artifacts can be passed to components which creates new executions.</p>
+<p>The <code>execution.wait_for_completion()</code> method blocks until the execution succeeds or fails.</p>
+<h3 id="artifacts">Artifacts</h3>
+<p>Each <code>Artifact</code> points to already existing or future data (file or directory).</p>
+<p>The <code>artifact.download([path=...])</code> method downloads artifact to explicit or temporary local location and returns the path.</p>
+<p>The <code>artifact.type_spec</code> attribute holds the artifact type.</p>
+<p>The <code>artifact.materialize()</code> method can convert the artifact data to a Python object for a small list of known types:</p>
+<ul>
+<li><code>String</code> -&gt; <code>str</code></li>
+<li><code>Integer</code> -&gt; <code>int</code></li>
+<li><code>Float</code> -&gt; <code>float</code></li>
+<li><code>Boolean</code> -&gt; <code>bool</code></li>
+<li><code>JsonArray</code> -&gt; <code>list</code></li>
+<li><code>JsonObject</code> -&gt; <code>dict</code></li>
+</ul>
+<p>Extra supported types:</p>
+<ul>
+<li><code>ApacheParquet</code> -&gt; <code>pandas.DataFrame</code></li>
+<li><code>TensorflowSavedModel</code> -&gt; TensorFlow or Keras module</li>
+</ul>
+<p>The same types are supported when passing Python objects into a component.</p>
+<p>Note: The <code>artifact.download()</code> and <code>artifact.materialize()</code> methods wait for the artifacts to be produced if they are not ready yet.</p>
+<h3 id="features">Features</h3>
+<h4 id="execution-caching-and-reuse">Execution caching and reuse</h4>
+<p>Successfully completed executions are put in cache.
+If the same task (same components, same input arguments) is submitted for execution again, the result would be reused from cache instead of doing the work again.</p>
+<h4 id="running-execution-caching-and-reuse">Running execution caching and reuse</h4>
+<p>Executions that are still running are put in a special cache too.
+If some task is submitted for execution while an identical task (same components, same input arguments) is being executed, then this running execution will be reused instead of doing the work again.</p>
+<h2 id="running-locally-and-in-cloud">Running locally and in cloud</h2>
+<h3 id="local-launchers">Local launchers</h3>
+<h4 id="docker">Docker</h4>
+<p>Docker launcher uses the local Docker installation to execute component tasks.
+Make sure that Docker is installed and working. See <a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a></p>
+<p>This is the default task launcher, so you do not need to select it explicitly.
+To configure Cloud Pipelines to use the Docker task launcher use the following code:</p>
+<pre><code class="language-python">from cloud_pipelines.orchestration.launchers.local_docker_launcher import DockerContainerLauncher
+cloud_pipelines.activate_interactive_mode(
+    task_launcher=DockerContainerLauncher(),
+    # Optional:
+    root_uri=&quot;/some/local/path&quot;,  # The location where the system can put the artifact data and the DB
+)
+</code></pre>
+<h3 id="google-cloud">Google Cloud</h3>
+<p>There are several task launchers based on Google Cloud services.
+Launchers are being actively developed and some are still in experimental stage.</p>
+<p>Make sure that you have set up access to Google Cloud using <code>gcloud</code> (e.g. <code>gcloud auth login</code>).</p>
+<p>Google Cloud services work with data stored in Google Cloud Storage, so you will need <a href="https://cloud.google.com/storage/docs/creating-buckets">Google Cloud Storage bucket</a>.</p>
+<p>Set the <code>root_uri</code> to some directory in a Google Cloud Storage bucket when using task launchers based on Google Cloud services.</p>
+<h4 id="google-cloud-batch">Google Cloud Batch</h4>
+<p><a href="https://cloud.google.com/batch/">Google Cloud Batch</a> is a fully managed batch service to schedule, queue, and execute batch jobs on Google's infrastructure.</p>
+<p>To configure Cloud Pipelines to use the Google Cloud Batch task launcher use the following code:</p>
+<pre><code class="language-python">from cloud_pipelines.orchestration.launchers.google_cloud_batch_launcher import GoogleCloudBatchLauncher
+cloud_pipelines.activate_interactive_mode(
+    task_launcher=GoogleCloudBatchLauncher(),
+    root_uri=&quot;gs://&lt;bucket&gt;/&lt;root_dir&gt;&quot;,
+)
+</code></pre>
+<h4 id="google-cloud-vertex-ai-customjob">Google Cloud Vertex AI CustomJob</h4>
+<p><a href="https://cloud.google.com/vertex-ai/">Google Cloud Vertex AI</a> helps users build, deploy, and scale machine learning (ML) models faster, with fully managed ML tools for any use case. Google Cloud Vertex AI <a href="https://cloud.google.com/vertex-ai/docs/training/create-custom-job">CustomJob</a> service is the basic way to run containerized code in Vertex AI.</p>
+<p>To configure Cloud Pipelines to use the Google Cloud Vertex AI CustomJob task launcher use the following code:</p>
+<pre><code class="language-python">from cloud_pipelines.orchestration.launchers.google_cloud_vertex_custom_job_launcher import GoogleCloudVertexAiCustomJobLauncher
+
+cloud_pipelines.activate_interactive_mode(
+    task_launcher=GoogleCloudVertexAiCustomJobLauncher(),
+    root_uri=&quot;gs://&lt;bucket&gt;/&lt;root_dir&gt;&quot;,
+)
+</code></pre>
+<h2 id="examples">Examples</h2>
+<h3 id="passing-and-materializing-pandas-dataframe">Passing and materializing Pandas DataFrame</h3>
+<pre><code class="language-python">import cloud_pipelines
+from cloud_pipelines.components import create_component_from_func, InputPath, OutputPath
+
+cloud_pipelines.activate_interactive_mode()
+
+
+# Creating a new component
+def select_columns(
+    table_path: InputPath(&quot;ApacheParquet&quot;),
+    output_table_path: OutputPath(&quot;ApacheParquet&quot;),
+    column_names: list,
+):
+    import pandas
+
+    df = pandas.read_parquet(table_path)
+    print(&quot;Input table:&quot;)
+    df.info()
+    df = df[column_names]
+    print(&quot;Output table:&quot;)
+    df.info()
+    df.to_parquet(output_table_path, index=False)
+
+select_columns_op = create_component_from_func(
+    func=select_columns,
+    packages_to_install=[&quot;pandas==1.3.5&quot;, &quot;pyarrow==10.0.1&quot;],
+)
+
+# Using the component:
+
+# Preparing the input data
+import pandas
+input_df = pandas.DataFrame(
+    {
+        &quot;feature1&quot;: [1, 2, 3, 4, 5],
+        &quot;feature2&quot;: [0.1, 0.2, 0.3, 0.4, 0.5],
+        &quot;feature3&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;],
+    }
+)
+
+# Running the component
+output_art = select_columns_op(
+    table=input_df, column_names=[&quot;feature1&quot;, &quot;feature2&quot;]
+).outputs[&quot;output_table&quot;]
+
+output_art2 = select_columns_op(
+    table=output_art, column_names=[&quot;feature2&quot;]
+).outputs[&quot;output_table&quot;]
+
+# Checking the output data
+output_df = output_art.materialize()
+assert output_df.columns.to_list() == [&quot;feature1&quot;, &quot;feature2&quot;]
+
+output_df2 = output_art2.materialize()
+assert output_df2.columns.to_list() == [&quot;feature2&quot;]
+
+cloud_pipelines.deactivate_interactive_mode()
+</code></pre>
+<p>You should see the following log:</p>
+<pre><code class="language-text">2023-02-06 07:20:59.575396: [Select columns] Starting container task.
+2023-02-06 07:21:18.629752: [Select columns] Input table:
+2023-02-06 07:21:18.638000: [Select columns] &lt;class 'pandas.core.frame.DataFrame'&gt;
+2023-02-06 07:21:18.639234: [Select columns] RangeIndex: 5 entries, 0 to 4
+2023-02-06 07:21:18.640105: [Select columns] Data columns (total 3 columns):
+2023-02-06 07:21:18.640904: [Select columns]  #   Column    Non-Null Count  Dtype
+2023-02-06 07:21:18.641821: [Select columns] ---  ------    --------------  -----
+2023-02-06 07:21:18.642746: [Select columns]  0   feature1  5 non-null      int64
+2023-02-06 07:21:18.643615: [Select columns]  1   feature2  5 non-null      float64
+2023-02-06 07:21:18.644713: [Select columns]  2   feature3  5 non-null      object
+2023-02-06 07:21:18.645470: [Select columns] dtypes: float64(1), int64(1), object(1)
+2023-02-06 07:21:18.646253: [Select columns] memory usage: 248.0+ bytes
+2023-02-06 07:21:18.647397: [Select columns] Output table:
+2023-02-06 07:21:18.648472: [Select columns] &lt;class 'pandas.core.frame.DataFrame'&gt;
+2023-02-06 07:21:18.649203: [Select columns] RangeIndex: 5 entries, 0 to 4
+2023-02-06 07:21:18.650094: [Select columns] Data columns (total 2 columns):
+2023-02-06 07:21:18.650899: [Select columns]  #   Column    Non-Null Count  Dtype
+2023-02-06 07:21:18.651725: [Select columns] ---  ------    --------------  -----
+2023-02-06 07:21:18.652832: [Select columns]  0   feature1  5 non-null      int64
+2023-02-06 07:21:18.653717: [Select columns]  1   feature2  5 non-null      float64
+2023-02-06 07:21:18.654761: [Select columns] dtypes: float64(1), int64(1)
+2023-02-06 07:21:18.655600: [Select columns] memory usage: 208.0 bytes
+2023-02-06 07:21:21.214023: [Select columns] Container task completed with status: Succeeded
+2023-02-06 07:21:21.219940: [Select columns 2] Starting container task.
+2023-02-06 07:21:37.051625: [Select columns 2] Input table:
+2023-02-06 07:21:37.059715: [Select columns 2] &lt;class 'pandas.core.frame.DataFrame'&gt;
+2023-02-06 07:21:37.061031: [Select columns 2] RangeIndex: 5 entries, 0 to 4
+2023-02-06 07:21:37.062099: [Select columns 2] Data columns (total 2 columns):
+2023-02-06 07:21:37.063600: [Select columns 2]  #   Column    Non-Null Count  Dtype
+2023-02-06 07:21:37.064602: [Select columns 2] ---  ------    --------------  -----
+2023-02-06 07:21:37.065859: [Select columns 2]  0   feature1  5 non-null      int64
+2023-02-06 07:21:37.066878: [Select columns 2]  1   feature2  5 non-null      float64
+2023-02-06 07:21:37.068062: [Select columns 2] dtypes: float64(1), int64(1)
+2023-02-06 07:21:37.069451: [Select columns 2] memory usage: 208.0 bytes
+2023-02-06 07:21:37.070592: [Select columns 2] Output table:
+2023-02-06 07:21:37.071812: [Select columns 2] &lt;class 'pandas.core.frame.DataFrame'&gt;
+2023-02-06 07:21:37.072785: [Select columns 2] RangeIndex: 5 entries, 0 to 4
+2023-02-06 07:21:37.073734: [Select columns 2] Data columns (total 1 columns):
+2023-02-06 07:21:37.074751: [Select columns 2]  #   Column    Non-Null Count  Dtype
+2023-02-06 07:21:37.075664: [Select columns 2] ---  ------    --------------  -----
+2023-02-06 07:21:37.077513: [Select columns 2]  0   feature2  5 non-null      float64
+2023-02-06 07:21:37.078540: [Select columns 2] dtypes: float64(1)
+2023-02-06 07:21:37.079618: [Select columns 2] memory usage: 168.0 bytes
+2023-02-06 07:21:39.645323: [Select columns 2] Container task completed with status: Succeeded
+</code></pre>
+<h3 id="passing-and-materializing-tensorflow-model">Passing and materializing TensorFlow model</h3>
+<pre><code class="language-python">import cloud_pipelines
+from cloud_pipelines.components import create_component_from_func, InputPath, OutputPath
+
+cloud_pipelines.activate_interactive_mode()
+
+
+# Creating a new component
+def transform_keras_model(
+    model_path: InputPath(&quot;TensorflowSavedModel&quot;),
+    output_model_path: OutputPath(&quot;TensorflowSavedModel&quot;),
+):
+    import tensorflow
+
+    model = tensorflow.keras.models.load_model(filepath=model_path)
+    model.summary()
+    tensorflow.keras.models.save_model(model=model, filepath=output_model_path)
+
+transform_keras_model_op = create_component_from_func(
+    func=transform_keras_model,
+    base_image=&quot;tensorflow/tensorflow:2.11.0&quot;,
+)
+
+# Using the component:
+
+# Preparing the input data
+import tensorflow as tf
+input_model = tf.keras.Sequential([
+    tf.keras.layers.Dense(5, input_shape=(3,)),
+    tf.keras.layers.Softmax(),
+])
+
+# Running the component
+output_art = transform_keras_model_op(model=input_model).outputs[&quot;output_model&quot;]
+
+# Checking the output data
+output_model = output_art.materialize()
+predictions = output_model(tf.constant([[0.1, 0.2, 0.3]]))
+print(predictions)
+assert predictions.shape == (1, 5)
+
+cloud_pipelines.deactivate_interactive_mode()
+</code></pre>
+<p>You should see the following log:</p>
+<pre><code class="language-text">2023-02-06 07:28:23.274859: [Transform keras model] Starting container task.
+2023-02-06 07:28:26.564806: [Transform keras model] Model: &quot;sequential_2&quot;
+2023-02-06 07:28:26.566027: [Transform keras model] _________________________________________________________________
+2023-02-06 07:28:26.567347: [Transform keras model]  Layer (type)                Output Shape              Param #
+2023-02-06 07:28:26.568419: [Transform keras model] =================================================================
+2023-02-06 07:28:26.569426: [Transform keras model]  dense_2 (Dense)             (None, 5)                 20
+2023-02-06 07:28:26.570448: [Transform keras model]
+2023-02-06 07:28:26.571461: [Transform keras model]  softmax_2 (Softmax)         (None, 5)                 0
+2023-02-06 07:28:26.572642: [Transform keras model]
+2023-02-06 07:28:26.575428: [Transform keras model] =================================================================
+2023-02-06 07:28:26.576851: [Transform keras model] Total params: 20
+2023-02-06 07:28:26.578012: [Transform keras model] Trainable params: 20
+2023-02-06 07:28:26.579110: [Transform keras model] Non-trainable params: 0
+2023-02-06 07:28:26.580276: [Transform keras model] _________________________________________________________________
+2023-02-06 07:28:27.912004: [Transform keras model] Container task completed with status: Succeeded
+</code></pre>
+<pre><code class="language-text">tf.Tensor([[0.17777765 0.16397926 0.18161307 0.22165933 0.2549707 ]], shape=(1, 5), dtype=float32)
+</code></pre>
+<h3 id="end-to-end-model-training-pipeline">End-to-end model training pipeline</h3>
+<pre><code class="language-python">import cloud_pipelines
+from cloud_pipelines import components
+
+cloud_pipelines.activate_interactive_mode()
+
+
+# Loading components:
+download_from_gcs_op = components.load_component_from_url(&quot;https://raw.githubusercontent.com/Ark-kun/pipeline_components/d8c4cf5e6403bc65bcf8d606e6baf87e2528a3dc/components/google-cloud/storage/download/component.yaml&quot;)
+select_columns_using_Pandas_on_CSV_data_op = components.load_component_from_url(&quot;https://raw.githubusercontent.com/Ark-kun/pipeline_components/8c78aae096806cff3bc331a40566f42f5c3e9d4b/components/pandas/Select_columns/in_CSV_format/component.yaml&quot;)
+fill_all_missing_values_using_Pandas_on_CSV_data_op = components.load_component_from_url(&quot;https://raw.githubusercontent.com/Ark-kun/pipeline_components/23405971f5f16a41b16c343129b893c52e4d1d48/components/pandas/Fill_all_missing_values/in_CSV_format/component.yaml&quot;)
+split_rows_into_subsets_op = components.load_component_from_url(&quot;https://raw.githubusercontent.com/Ark-kun/pipeline_components/daae5a4abaa35e44501818b1534ed7827d7da073/components/dataset_manipulation/Split_rows_into_subsets/in_CSV/component.yaml&quot;)
+create_fully_connected_tensorflow_network_op = components.load_component_from_url(&quot;https://raw.githubusercontent.com/Ark-kun/pipeline_components/9ca0f9eecf5f896f65b8538bbd809747052617d1/components/tensorflow/Create_fully_connected_network/component.yaml&quot;)
+train_model_using_Keras_on_CSV_op = components.load_component_from_url(&quot;https://raw.githubusercontent.com/Ark-kun/pipeline_components/c504a4010348c50eaaf6d4337586ccc008f4dcef/components/tensorflow/Train_model_using_Keras/on_CSV/component.yaml&quot;)
+predict_with_TensorFlow_model_on_CSV_data_op = components.load_component_from_url(&quot;https://raw.githubusercontent.com/Ark-kun/pipeline_components/59c759ce6f543184e30db6817d2a703879bc0f39/components/tensorflow/Predict/on_CSV/component.yaml&quot;)
+
+# The end-to-end model training pipeline
+
+dataset_gcs_uri = &quot;gs://ml-pipeline-dataset/Chicago_taxi_trips/chicago_taxi_trips_2019-01-01_-_2019-02-01_limit=10000.csv&quot;
+feature_columns = [&quot;trip_seconds&quot;, &quot;trip_miles&quot;, &quot;pickup_community_area&quot;, &quot;dropoff_community_area&quot;, &quot;fare&quot;, &quot;tolls&quot;, &quot;extras&quot;]  # Excluded &quot;trip_total&quot;
+label_column = &quot;tips&quot;
+training_set_fraction = 0.8
+
+all_columns = [label_column] + feature_columns
+
+dataset = download_from_gcs_op(
+    gcs_path=dataset_gcs_uri
+).outputs[&quot;Data&quot;]
+
+dataset = select_columns_using_Pandas_on_CSV_data_op(
+    table=dataset,
+    column_names=all_columns,
+).outputs[&quot;transformed_table&quot;]
+
+dataset = fill_all_missing_values_using_Pandas_on_CSV_data_op(
+    table=dataset,
+    replacement_value=&quot;0&quot;,
+    # # Optional:
+    # column_names=None,  # =[...]
+).outputs[&quot;transformed_table&quot;]
+
+split_task = split_rows_into_subsets_op(
+    table=dataset,
+    fraction_1=training_set_fraction,
+)
+training_data = split_task.outputs[&quot;split_1&quot;]
+testing_data = split_task.outputs[&quot;split_2&quot;]
+
+network = create_fully_connected_tensorflow_network_op(
+    input_size=len(feature_columns),
+    # Optional:
+    hidden_layer_sizes=[10],
+    activation_name=&quot;elu&quot;,
+    # output_activation_name=None,
+    # output_size=1,
+).outputs[&quot;model&quot;]
+
+model = train_model_using_Keras_on_CSV_op(
+    training_data=training_data,
+    model=network,
+    label_column_name=label_column,
+    # Optional:
+    # loss_function_name=&quot;mean_squared_error&quot;,
+    number_of_epochs=10,
+    # learning_rate=0.1,
+    # optimizer_name=&quot;Adadelta&quot;,
+    # optimizer_parameters={},
+    # batch_size=32,
+    metric_names=[&quot;mean_absolute_error&quot;],
+    # random_seed=0,
+).outputs[&quot;trained_model&quot;]
+
+predictions = predict_with_TensorFlow_model_on_CSV_data_op(
+    dataset=testing_data,
+    model=model,
+    # label_column_name needs to be set when doing prediction on a dataset that has labels
+    label_column_name=label_column,
+    # Optional:
+    # batch_size=1000,
+).outputs[&quot;predictions&quot;]
+
+# Inspecting the trained model (requires TensorFlow to be installed):
+tf_model = model.materialize()
+predictions = tf_model.predict([[100, 10, 0, 0, 30, 0, 0]])
+print(predictions)
+</code></pre>
+<p>You should see the following log:</p>
+<pre><code class="language-text">2023-02-06 07:50:05.939270: [Download from GCS] Starting container task.
+2023-02-06 07:50:05.958715: [Create fully connected tensorflow network] Starting container task.
+2023-02-06 07:50:27.954952: [Download from GCS] Copying gs://ml-pipeline-dataset/Chicago_taxi_trips/chicago_taxi_trips_2019-01-01_-_2019-02-01_limit=10000.csv...
+/ [1/1 files][  4.0 MiB/  4.0 MiB] 100% DoneCS] / [0/1 files][    0.0 B/  4.0 MiB]   0% Done
+2023-02-06 07:50:29.098814: [Download from GCS] Container task completed with status: Succeeded
+2023-02-06 07:50:29.105666: [Select columns using Pandas on CSV data] Starting container task.
+2023-02-06 07:50:31.304809: [Create fully connected tensorflow network] Model: &quot;sequential&quot;
+2023-02-06 07:50:31.306510: [Create fully connected tensorflow network] _________________________________________________________________
+2023-02-06 07:50:31.308110: [Create fully connected tensorflow network]  Layer (type)                Output Shape              Param #
+2023-02-06 07:50:31.309528: [Create fully connected tensorflow network] =================================================================
+2023-02-06 07:50:31.310855: [Create fully connected tensorflow network]  dense (Dense)               (None, 10)                80
+2023-02-06 07:50:31.312091: [Create fully connected tensorflow network]
+2023-02-06 07:50:31.313317: [Create fully connected tensorflow network]  dense_1 (Dense)             (None, 1)                 11
+2023-02-06 07:50:31.314453: [Create fully connected tensorflow network]
+2023-02-06 07:50:31.315585: [Create fully connected tensorflow network] =================================================================
+2023-02-06 07:50:31.316750: [Create fully connected tensorflow network] Total params: 91
+2023-02-06 07:50:31.318417: [Create fully connected tensorflow network] Trainable params: 91
+2023-02-06 07:50:31.319557: [Create fully connected tensorflow network] Non-trainable params: 0
+2023-02-06 07:50:31.320711: [Create fully connected tensorflow network] _________________________________________________________________
+2023-02-06 07:50:31.321628: [Create fully connected tensorflow network] None
+2023-02-06 07:50:32.675023: [Create fully connected tensorflow network] Container task completed with status: Succeeded
+2023-02-06 07:50:48.864645: [Select columns using Pandas on CSV data] Container task completed with status: Succeeded
+2023-02-06 07:50:48.871253: [Fill all missing values using Pandas on CSV data] Starting container task.
+2023-02-06 07:51:04.675086: [Fill all missing values using Pandas on CSV data] Container task completed with status: Succeeded
+2023-02-06 07:51:04.682334: [Split rows into subsets] Starting container task.
+2023-02-06 07:51:05.849733: [Split rows into subsets] Container task completed with status: Succeeded
+2023-02-06 07:51:05.859774: [Train model using Keras on CSV] Starting container task.
+2023-02-06 07:51:30.908289: [Train model using Keras on CSV] Epoch 1/10
+250/250 [==============================] - 1s 3ms/step - loss: 466542.4375 - mean_absolute_error: 255.4936
+2023-02-06 07:51:32.240018: [Train model using Keras on CSV] Epoch 2/10
+250/250 [==============================] - 0s 2ms/step - loss: 438178.6250 - mean_absolute_error: 244.0726
+2023-02-06 07:51:32.765705: [Train model using Keras on CSV] Epoch 3/10
+250/250 [==============================] - 0s 2ms/step - loss: 420882.3125 - mean_absolute_error: 236.5558
+2023-02-06 07:51:33.282513: [Train model using Keras on CSV] Epoch 4/10
+250/250 [==============================] - 0s 2ms/step - loss: 400669.0625 - mean_absolute_error: 228.6952
+2023-02-06 07:51:33.818343: [Train model using Keras on CSV] Epoch 5/10
+250/250 [==============================] - 0s 1ms/step - loss: 389529.3125 - mean_absolute_error: 221.8236
+2023-02-06 07:51:34.364360: [Train model using Keras on CSV] Epoch 6/10
+250/250 [==============================] - 0s 2ms/step - loss: 369576.1875 - mean_absolute_error: 214.7483
+2023-02-06 07:51:34.902718: [Train model using Keras on CSV] Epoch 7/10
+250/250 [==============================] - 0s 1ms/step - loss: 359488.5938 - mean_absolute_error: 208.7065
+2023-02-06 07:51:35.421358: [Train model using Keras on CSV] Epoch 8/10
+250/250 [==============================] - 0s 1ms/step - loss: 344714.1250 - mean_absolute_error: 202.4835
+2023-02-06 07:51:36.059533: [Train model using Keras on CSV] Epoch 9/10
+250/250 [==============================] - 0s 2ms/step - loss: 332770.8438 - mean_absolute_error: 196.7609
+2023-02-06 07:51:36.600948: [Train model using Keras on CSV] Epoch 10/10
+250/250 [==============================] - 0s 1ms/step - loss: 320756.7500 - mean_absolute_error: 191.5481
+2023-02-06 07:51:38.626267: [Train model using Keras on CSV] Container task completed with status: Succeeded
+2023-02-06 07:51:38.635764: [Predict with TensorFlow model on CSV data] Starting container task.
+2023-02-06 07:52:05.156470: [Predict with TensorFlow model on CSV data] Container task completed with status: Succeeded
+
+1/1 [==============================] - 2s 2s/step
+[[19.48053]]
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js" defer></script>
+        <script src="../../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
