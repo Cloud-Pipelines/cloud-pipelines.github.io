@@ -6,4 +6,6 @@ nav:
   - index.md
   - Components:
       - components/create_component_from_python_function.md
+  - SDK:
+      - sdk/orchestration/interactive.md
   - privacy_policy.md
