@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="None">
-        
+
         <link rel="canonical" href="https://cloud-pipelines.net/">
         <link rel="shortcut icon" href="img/favicon.ico">
         <title>Cloud Pipelines</title>
@@ -17,7 +17,7 @@
         <script src="js/jquery-1.10.2.min.js" defer></script>
         <script src="js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script>hljs.initHighlightingOnLoad();</script>
     </head>
 
     <body class="homepage">
@@ -39,7 +39,7 @@
                             <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Components <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    
+
 <li>
     <a href="components/create_component_from_python_function/" class="dropdown-item">Create a component from a Python function</a>
 </li>
@@ -48,7 +48,7 @@
                             <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">SDK <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    
+
 <li>
     <a href="sdk/orchestration/interactive/" class="dropdown-item">Interactive pipelines</a>
 </li>
@@ -89,10 +89,10 @@
         </button>
     </div>
 
-    
+
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
-            
+
             <li class="nav-item" data-level="1"><a href="#pipeline-editor" class="nav-link">Pipeline Editor</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#video" class="nav-link">Video</a>
@@ -118,21 +118,83 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="pipeline-editor"><a href="https://cloud-pipelines.net/pipeline-editor">Pipeline Editor</a></h1>
+<h1 id="cloud-pipelines">Cloud Pipelines</h1>
+<p>Cloud Pipelines project helps users build and run Machine Learning pipelines.</p>
+<p>The Cloud Pipelines ecosystem consists of multiple parts that all work together:</p>
+<ul>
+<li><a href="#pipeline-studio">Pipeline Studio</a>. A modern backend-based web app for building and running pipelines.</li>
+<li><a href="#pipeline-editor">Pipeline Editor</a>. The original browser-only web app for building and running pipelines.</li>
+<li><a href="https://github.com/Cloud-Pipelines/sdk">SDK</a>. The Python SDK for creating and debugging pipeline components and pipelines.</li>
+<li><a href="https://github.com/Cloud-Pipelines/component_spec_schema">ComponentSpec/<code>component.yaml</code> schema</a>. The formal definition of the pipeline component format.</li>
+</ul>
+<h2 id="pipeline-studio">Pipeline Studio</h2>
+<p>Pipeline Studio is a web app that allows the users to build and run Machine Learning pipelines using drag and drop without having to set up development environment.</p>
+<p>Unlike the older <a href="#pipeline-editor">Pipeline Editor</a> app that was a client-side browser-only backendless app, the Pipeline Studio app relies on a native Cloud Pipelines backend which allows the app to be more feature-rich.</p>
+<p><a href="https://cloud-pipelines.net/pipeline-studio-app"><img alt="image" src="https://github.com/user-attachments/assets/0ce7ccc0-dad7-4f6a-8677-f2adcd83f558" /></a></p>
+<h3 id="demo">Demo</h3>
+<p>Try the live demo of the <a href="https://cloud-pipelines.net/pipeline-studio-app">Cloud Pipelines Studio</a> app. No registration is required to experiment with building pipelines. To install your own app instance and execute your pipelines, follow the <a href="https://github.com/Cloud-Pipelines/backend?tab=readme-ov-file#installation">backend installation instructions</a>.</p>
+<p>The app is under active development. Please check it out and report any bugs you find using <a href="https://github.com/Cloud-Pipelines/cloud-pipelines-studio/issues">GitHub Issues</a>.</p>
+<h3 id="app-features">App features</h3>
+<ul>
+<li>Start building pipelines right away<ul>
+<li>Intuitive visual drag and drop interface</li>
+<li>No registration required to build. You own your data.</li>
+</ul>
+</li>
+<li>Execute pipelines on your local machine or in Cloud<ul>
+<li>Easily install the app on local machine or deploy to cloud</li>
+<li>Submit pipelines for execution with a single click.</li>
+<li>Easily monitor all pipeline task executions, view the artifacts, read the logs.</li>
+</ul>
+</li>
+<li>Fast iteration<ul>
+<li>Clone any pipeline run and get a new editable pipeline</li>
+<li>Create pipeline -&gt; Submit run -&gt; Monitor run -&gt; Clone run -&gt; Edit pipeline -&gt; Submit run ...</li>
+</ul>
+</li>
+<li>Automatic execution caching and reuse<ul>
+<li>Save time and compute. Don't re-do what's done</li>
+<li>Successful and even running executions are re-used from cache</li>
+</ul>
+</li>
+<li>Reproducibility<ul>
+<li>All your runs are kept forever (on your machine) - graph, logs, metadata</li>
+<li>Re-run an old pipeline run with just two clicks (Clone pipeline, Submit run)</li>
+<li>Containers and strict component versioning ensure reproducibility</li>
+</ul>
+</li>
+<li>Pipeline Components<ul>
+<li>Time-proven <code>ComponentSpec</code>/<code>component.yaml</code> format</li>
+<li>A library of preloaded components</li>
+<li>Fast-growing public component ecosystem</li>
+<li>Add your own components (public or private)</li>
+<li>Easy to create your own components manually or using the Cloud Pipelines SDK</li>
+<li>Components can be written in <a href="https://github.com/Ark-kun/pipeline_components/tree/master/components/sample">any language</a> (Python, Shell, R, Java, C#, etc).</li>
+<li>Compatible with <a href="https://cloud.google.com/vertex-ai/docs/pipelines/introduction">Google Cloud Vertex AI Pipelines</a> and <a href="https://www.kubeflow.org/docs/components/pipelines/introduction/">Kubeflow Pipelines</a></li>
+<li>Lots of pre-built components on GitHub: <a href="https://github.com/Ark-kun/pipeline_components/tree/master/components">Ark-kun/pipeline_components</a>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="links">Links</h3>
+<p><a href="https://cloud-pipelines.net/pipeline-studio-app">App demo</a> (Pipeline building only. To execute pipelines, install the app locally or in Cloud.).</p>
+<p><a href="https://github.com/Cloud-Pipelines/backend?tab=readme-ov-file#installation">Installation instructions</a>. Run the app and execute your pipelines locally or in Cloud.</p>
+<p><a href="https://github.com/Cloud-Pipelines/cloud-pipelines-studio/issues">Report bugs and request features</a></p>
+<p>Source code: <a href="https://github.com/Cloud-Pipelines/backend">Backend</a>, <a href="https://github.com/Cloud-Pipelines/pipeline-studio-app">Frontend</a></p>
+<h2 id="pipeline-editor">Pipeline Editor</h2>
 <p>Pipeline Editor is a web app that allows the users to build and run Machine Learning pipelines using drag and drop without having to set up development environment.</p>
-<h2 id="video"><a href="https://www.youtube.com/watch?v=7g22nupCDes">Video</a></h2>
+<h3 id="video"><a href="https://www.youtube.com/watch?v=7g22nupCDes">Video</a></h3>
 <p>See the <a href="https://www.youtube.com/watch?v=7g22nupCDes">Pipeline Editor in action</a></p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7g22nupCDes?controls=0" title="Cloud Pipelines - Build machine learning pipelines without writing code" frameborder="0" allowfullscreen></iframe>
 
 <p><a href="https://www.youtube.com/watch?v=7g22nupCDes">Cloud Pipelines - Build machine learning pipelines without writing code</a></p>
-<h2 id="app"><a href="https://cloud-pipelines.net/pipeline-editor">App</a></h2>
+<h3 id="app"><a href="https://cloud-pipelines.net/pipeline-editor">App</a></h3>
 <p>Try the <a href="https://cloud-pipelines.net/pipeline-editor">Pipeline Editor</a> now. No registration required.
 <a href="https://cloud-pipelines.net/pipeline-editor"><img alt="image" src="https://user-images.githubusercontent.com/1829149/127566707-fceb9e41-1126-4588-b94a-c69e87fe0488.png" /></a></p>
 <!-- Please check it out and report any bugs you find using [GitHub Issues](https://github.com/Cloud-Pipelines/pipeline-editor/issues).
 
 The app is under active development, so expect some breakages as I work on the app and do not rely on the app for production. -->
 
-<h2 id="app-features">App features</h2>
+<h3 id="app-features_1">App features</h3>
 <ul>
 <li>Build pipelines using drag and drop</li>
 <li>Execute pipelines in the cloud<ul>
@@ -144,15 +206,15 @@ The app is under active development, so expect some breakages as I work on the a
 <li>You own your data</li>
 </ul>
 </li>
-<li>Components<ul>
-<li>Time-proven component format</li>
+<li>Pipeline Components<ul>
+<li>Time-proven <code>ComponentSpec</code>/<code>component.yaml</code> format</li>
 <li>A library of preloaded components</li>
 <li>Fast-growing public component ecosystem</li>
 <li>Add your own components (public or private)</li>
-<li>Easy to create your own components</li>
-<li>Components can be written in any language (Python, Shell, R, Java, C#, etc).</li>
-<li>Compatible with <a href="https://www.kubeflow.org/docs/components/pipelines/introduction/">Kubeflow Pipelines</a> components (<code>component.yaml</code> files)</li>
-<li>Find components on GitHub: <a href="https://github.com/Ark-kun/pipeline_components/tree/master/components">Ark-kun/pipeline_components</a>, <a href="https://github.com/kubeflow/pipelines/tree/master/components#index-of-components">kubeflow/pipelines/components</a> and hundreds more.</li>
+<li>Easy to create your own components manually or using the Cloud Pipelines SDK</li>
+<li>Components can be written in <a href="https://github.com/Ark-kun/pipeline_components/tree/master/components/sample">any language</a> (Python, Shell, R, Java, C#, etc).</li>
+<li>Compatible with <a href="https://cloud.google.com/vertex-ai/docs/pipelines/introduction">Google Cloud Vertex AI Pipelines</a> and <a href="https://www.kubeflow.org/docs/components/pipelines/introduction/">Kubeflow Pipelines</a></li>
+<li>Lots of pre-built components on GitHub: <a href="https://github.com/Ark-kun/pipeline_components/tree/master/components">Ark-kun/pipeline_components</a>.</li>
 </ul>
 </li>
 <li>Pipelines<ul>
@@ -161,8 +223,9 @@ The app is under active development, so expect some breakages as I work on the a
 </ul>
 </li>
 </ul>
-<h2 id="additional-information">Additional information</h2>
+<h3 id="links_1">Links</h3>
 <p><a href="https://github.com/Cloud-Pipelines/pipeline-editor/issues">Report bugs and request features</a></p>
+<h2 id="additional-information">Additional information</h2>
 <p><a href="mailto://contact@cloud-pipelines.net">Contact</a></p>
 <p><a href="https://cloud-pipelines.net/privacy_policy">Privacy policy</a></p></div>
             </div>
@@ -245,5 +308,5 @@ The app is under active development, so expect some breakages as I work on the a
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2023-02-06 09:07:09.440012+00:00
+Build Date UTC : 2025-09-28 00:49:30.273437+00:00
 -->
