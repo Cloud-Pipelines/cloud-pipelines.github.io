@@ -6,26 +6,26 @@ title: Cloud Pipelines
 
 Cloud Pipelines project helps users build and run Machine Learning pipelines.
 
-The Cloud Pipelines ecosystem consists of multiple parts that all work together:
+The Cloud Pipelines ecosystem consists of multiple projects that all work together:
 
-* [Pipeline Studio](#pipeline-studio). A modern backend-based web app for building and running pipelines.
-* [Pipeline Editor](#pipeline-editor). The original browser-only web app for building and running pipelines.
+* [Tangle](#tangle). A modern backend-based web app for building and running pipelines.
+* [Pipeline Editor](#pipeline-editor) (legacy). The original browser-only web app for building and running pipelines.
 * [SDK](https://github.com/Cloud-Pipelines/sdk). The Python SDK for creating and debugging pipeline components and pipelines.
 * [ComponentSpec/`component.yaml` schema](https://github.com/Cloud-Pipelines/component_spec_schema). The formal definition of the pipeline component format.
 
-## Pipeline Studio
+## Tangle
 
-Pipeline Studio is a web app that allows the users to build and run Machine Learning pipelines using drag and drop without having to set up development environment.
+Tangle is a web app that allows the users to build and run Machine Learning pipelines using drag and drop without having to set up development environment.
 
-Unlike the older [Pipeline Editor](#pipeline-editor) app that was a client-side browser-only backendless app, the Pipeline Studio app relies on a native Cloud Pipelines backend which allows the app to be more feature-rich.
+Unlike the older [Pipeline Editor](#pipeline-editor) app that was a client-side browser-only backendless app, the Tangle app relies on a native Cloud Pipelines backend which allows the app to be more feature-rich.
 
 [![image](https://github.com/user-attachments/assets/0ce7ccc0-dad7-4f6a-8677-f2adcd83f558)](https://cloud-pipelines.net/pipeline-studio-app)
 
 ### Demo
 
-Try the live demo of the [Cloud Pipelines Studio](https://cloud-pipelines.net/pipeline-studio-app) app. No registration is required to experiment with building pipelines. To install your own app instance and execute your pipelines, follow the [backend installation instructions](https://github.com/Cloud-Pipelines/backend?tab=readme-ov-file#installation).
+Try the live demo of the [Tangle](https://cloud-pipelines.net/pipeline-studio-app) app. No registration is required to experiment with building pipelines. To install your own app instance and execute your pipelines, follow the [backend installation instructions](https://github.com/Cloud-Pipelines/tangle?tab=readme-ov-file#installation).
 
-The app is under active development. Please check it out and report any bugs you find using [GitHub Issues](https://github.com/Cloud-Pipelines/cloud-pipelines-studio/issues).
+The app is under active development. Please check it out and report any bugs you find using [GitHub Issues](https://github.com/Cloud-Pipelines/tangle/issues).
 
 ### App features
 
@@ -60,11 +60,11 @@ The app is under active development. Please check it out and report any bugs you
 
 [App demo](https://cloud-pipelines.net/pipeline-studio-app) (Pipeline building only. To execute pipelines, install the app locally or in Cloud.).
 
-[Installation instructions](https://github.com/Cloud-Pipelines/backend?tab=readme-ov-file#installation). Run the app and execute your pipelines locally or in Cloud.
+[Installation instructions](https://github.com/Cloud-Pipelines/tangle?tab=readme-ov-file#installation). Run the app and execute your pipelines locally or in Cloud.
 
-[Report bugs and request features](https://github.com/Cloud-Pipelines/cloud-pipelines-studio/issues)
+[Report bugs and request features](https://github.com/Cloud-Pipelines/tangle/issues)
 
-Source code: [Backend](https://github.com/Cloud-Pipelines/backend), [Frontend](https://github.com/Cloud-Pipelines/pipeline-studio-app)
+Source code: [Backend](https://github.com/Cloud-Pipelines/backend), [Frontend](https://github.com/Cloud-Pipelines/pipeline-studio-app), []
 
 ## Pipeline Editor
 
